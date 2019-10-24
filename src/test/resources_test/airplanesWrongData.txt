@@ -1,0 +1,6 @@
+Side number| Brand      |Model|   Type  |Crew |  Passengers|Max speed, km/h|Max altitude, m|Max flight range,km|Fuel supply,t|Fuel consumption,kg/h|   Cargo capacity,t|
+    GH12   |  Sukhoi    |C4312|PASSENGER|  2  |    0       |     850       |    10000      |       5000        |    245      |       170           |       gg        |
+    B423   |  Airbus    |A320 |Passenger| 4   |    265     |     900       |    10000      |       6000        |    195      |       120           |       0           |
+    S513   |  Airbus    |A370 |PASSENGER| 3   |    256     |     900       |    10500      |       5000        |    220      |       140           |       0           |
+    GH15   |  Bombardier|B234 |CARGO    | 4   |    0       |     800       |    11000      |       5000        |    200      |       160           |       220         |
+    Y1456  |  Boeing    |737  |PASSENGER| 5   |    277     |     950       |    8000       |       6500        |    180      |       130           |       0           |
