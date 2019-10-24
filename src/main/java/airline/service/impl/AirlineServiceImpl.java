@@ -1,13 +1,13 @@
-package taskslist4.maintask.airline.service.impl;
+package airline.service.impl;
 
-import taskslist4.maintask.airline.comparator.AirplaneCrewCapacityComparator;
-import taskslist4.maintask.airline.comparator.AirplaneFuelConsumptionComparator;
-import taskslist4.maintask.airline.comparator.AirplanePassengersCapacityComparator;
-import taskslist4.maintask.airline.model.Airplane;
-import taskslist4.maintask.airline.model.AirplaneType;
-import taskslist4.maintask.airline.model.CargoAirplane;
-import taskslist4.maintask.airline.model.PassengerAirplane;
-import taskslist4.maintask.airline.service.AirlineService;
+import airline.comparator.AirplaneCrewCapacityComparator;
+import airline.comparator.AirplaneFuelConsumptionComparator;
+import airline.comparator.AirplanePassengersCapacityComparator;
+import airline.model.Airplane;
+import airline.model.AirplaneType;
+import airline.model.CargoAirplane;
+import airline.model.PassengerAirplane;
+import airline.service.AirlineService;
 
 import java.io.File;
 import java.io.FileNotFoundException;

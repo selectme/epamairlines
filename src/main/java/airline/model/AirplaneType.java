@@ -1,4 +1,4 @@
-package taskslist4.maintask.airline.model;
+package airline.model;
 
 /**
  * Types of an airplane

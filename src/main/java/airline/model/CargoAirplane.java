@@ -1,4 +1,4 @@
-package taskslist4.maintask.airline.model;
+package airline.model;
 
 /**
  * Model object that represents a cargo airplane

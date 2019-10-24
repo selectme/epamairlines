@@ -1,8 +1,8 @@
-package taskslist4.maintask.airline;
+package airline;
 
-import taskslist4.maintask.airline.model.Airplane;
-import taskslist4.maintask.airline.service.AirlineService;
-import taskslist4.maintask.airline.service.impl.AirlineServiceImpl;
+import airline.model.Airplane;
+import airline.service.AirlineService;
+import airline.service.impl.AirlineServiceImpl;
 
 import java.util.List;
 

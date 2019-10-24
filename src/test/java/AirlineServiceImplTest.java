@@ -1,20 +1,19 @@
 import org.junit.Before;
 import org.junit.Test;
-import taskslist4.maintask.airline.comparator.AirplaneBrandComparator;
-import taskslist4.maintask.airline.comparator.AirplaneCrewCapacityComparator;
-import taskslist4.maintask.airline.comparator.AirplaneFuelConsumptionComparator;
-import taskslist4.maintask.airline.comparator.AirplanePassengersCapacityComparator;
-import taskslist4.maintask.airline.model.Airplane;
-import taskslist4.maintask.airline.model.AirplaneType;
-import taskslist4.maintask.airline.model.CargoAirplane;
-import taskslist4.maintask.airline.model.PassengerAirplane;
-import taskslist4.maintask.airline.service.AirlineService;
-import taskslist4.maintask.airline.service.impl.AirlineServiceImpl;
+import airline.comparator.AirplaneBrandComparator;
+import airline.comparator.AirplaneCrewCapacityComparator;
+import airline.comparator.AirplaneFuelConsumptionComparator;
+import airline.comparator.AirplanePassengersCapacityComparator;
+import airline.model.Airplane;
+import airline.model.AirplaneType;
+import airline.model.CargoAirplane;
+import airline.model.PassengerAirplane;
+import airline.service.AirlineService;
+import airline.service.impl.AirlineServiceImpl;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 
 /**
