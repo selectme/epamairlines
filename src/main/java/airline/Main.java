@@ -14,9 +14,9 @@ public class Main {
 
     public static void main(String[] args) {
         AirlineService service = new AirlineServiceImpl();
-       List<Airplane> airplanes =  service.createAirplanesList(FILENAME);
+        List<Airplane> airplanes = service.createAirplanesList(FILENAME);
 
-        for(Airplane airplane : airplanes){
+        for (Airplane airplane : airplanes) {
             System.out.println(airplane);
         }
     }
