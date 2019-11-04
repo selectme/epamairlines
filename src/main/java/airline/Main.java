@@ -1,6 +1,7 @@
 package airline;
 
 import airline.model.Airplane;
+import airline.model.AirplaneType;
 import airline.service.AirlineService;
 import airline.service.impl.AirlineServiceImpl;
 
@@ -19,5 +20,6 @@ public class Main {
         for (Airplane airplane : airplanes) {
             System.out.println(airplane);
         }
+
     }
 }

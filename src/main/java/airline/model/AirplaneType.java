@@ -7,5 +7,8 @@ package airline.model;
  * @see Airplane
  */
 public enum AirplaneType {
+
    PASSENGER, CARGO
+
 }
+

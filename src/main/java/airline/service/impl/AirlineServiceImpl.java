@@ -7,6 +7,7 @@ import airline.model.Airplane;
 import airline.model.AirplaneType;
 import airline.model.CargoAirplane;
 import airline.model.PassengerAirplane;
+import airline.parser.Parser;
 import airline.service.AirlineService;
 
 import java.io.File;
@@ -18,6 +19,7 @@ import java.util.*;
  * @author Viktar on 30.09.2019
  */
 public class AirlineServiceImpl implements AirlineService {
+    private final static int CHARACTERISTICS_LENGTH = 12;
 
     /**
      * Creates array of {@link Airplane}  from a list of airplanes
@@ -48,124 +50,25 @@ public class AirlineServiceImpl implements AirlineService {
             System.out.println("File is empty");
         }
 
+        Parser parser = new Parser();
         List<Airplane> airplanes = new ArrayList<>();
 
         while (input.hasNextLine()) {
 
             String[] characteristics = input.nextLine().split("\\|");
-            if (characteristics.length == 12) {
-                sideNumber = characteristics[0].trim();
-                manufacturer = characteristics[1].trim();
-                model = characteristics[2].trim();
-
-                try {
-                    airplaneType = AirplaneType.valueOf(characteristics[3].trim().toUpperCase());
-                } catch (IllegalArgumentException e) {
-                    throw new IllegalArgumentException("ERROR! Airplane " + sideNumber + " must be only Passenger or Cargo." +
-                            "Check your airplanes list ", e);
-                }
-
-
-                try {
-                    crew = Integer.parseInt(characteristics[4].trim());
-                    if (crew < 0) {
-                        throw new IllegalArgumentException("ERROR! Crew can't be less than 0 and it must be a natural number." +
-                                " Check the airplane number " + sideNumber);
-                    }
-                } catch (NumberFormatException e) {
-                    throw new IllegalArgumentException("ERROR! Crew must be a natural number. Check the airplane number "
-                            + sideNumber, e);
-                }
-
-
-                try {
-                    passengers = Integer.parseInt(characteristics[5].trim());
-                    if (passengers < 0) {
-                        throw new IllegalArgumentException("ERROR! Passengers can't be less than 0 and it must be a natural number." +
-                                " Check the airplane number " + sideNumber);
-                    } else if ((airplaneType == AirplaneType.CARGO) && (passengers > 0)) {
-                        throw new IllegalStateException("Cargo type can't have passengers. Check the airplane number "
-                                + sideNumber);
-                    }
-                } catch (NumberFormatException e) {
-                    throw new IllegalArgumentException("ERROR! Passengers must be a natural number. Check the airplane number "
-                            + sideNumber, e);
-                }
-
-
-                try {
-                    maxSpeed = Integer.parseInt(characteristics[6].trim());
-                    if (maxSpeed < 0) {
-                        throw new IllegalArgumentException("Error! Max speed can't be negative. " +
-                                "Check the airplane number " + sideNumber);
-                    }
-                } catch (NumberFormatException e) {
-                    throw new IllegalArgumentException("ERROR! Max speed must be a positive natural number. " +
-                            "Check the airplane number " + sideNumber);
-                }
-
-
-                try {
-                    maxAltitude = Integer.parseInt(characteristics[7].trim());
-                    if (maxAltitude < 0) {
-                        throw new IllegalArgumentException("Error! Max altitude can't be negative. " +
-                                "Check the airplane number " + sideNumber);
-                    }
-                } catch (NumberFormatException e) {
-                    throw new IllegalArgumentException("ERROR! Max altitude must be a positive natural number. " +
-                            "Check the airplane number " + sideNumber);
-                }
-
-
-                try {
-                    maxFlightRange = Integer.parseInt(characteristics[8].trim());
-                    if (maxFlightRange < 0) {
-                        throw new IllegalArgumentException("ERROR! Max flight range can't be negative. " +
-                                "Check the airplane number " + sideNumber);
-                    }
-                } catch (NumberFormatException e) {
-                    throw new IllegalArgumentException("ERROR! Max speed must be a positive natural number. " +
-                            "Check the airplane number " + sideNumber);
-                }
-
-
-                try {
-                    fuelSupply = Integer.parseInt(characteristics[9].trim());
-                    if (fuelSupply < 0) {
-                        throw new IllegalArgumentException("ERROR! Fuel supply range can't be negative. " +
-                                "Check the airplane number " + sideNumber);
-                    }
-                } catch (NumberFormatException e) {
-                    throw new IllegalArgumentException("ERROR! Fuel supply must be a positive natural number. " +
-                            "Check the airplane number " + sideNumber);
-                }
-
-
-                try {
-                    fuelConsumption = Double.parseDouble(characteristics[10].trim());
-                    if (fuelConsumption < 0) {
-                        throw new IllegalArgumentException("ERROR! Fuel consumption can't be negative. " +
-                                "Check the airplane number " + sideNumber);
-                    }
-                } catch (NumberFormatException e) {
-                    throw new IllegalArgumentException("ERROR! Fuel consumption must be a positive number. " +
-                            "Check the airplane number " + sideNumber);
-                }
-
-
-                try {
-                    cargoCapacity = Integer.parseInt(characteristics[11].trim());
-                    if ((airplaneType == AirplaneType.PASSENGER) && (((cargoCapacity > 0) || (cargoCapacity < 0)))) {
-                        throw new IllegalArgumentException("Error! Passenger airplane does not carry cargo. " +
-                                "Check the airplane number " + sideNumber);
-                    } else if (cargoCapacity < 0) {
-                        throw new IllegalArgumentException("ERROR! Cargo capacity can't negative it must be a natural number." +
-                                "Check the airplane number " + sideNumber);
-                    }
-                } catch (NumberFormatException e) {
-                    throw new IllegalArgumentException("ERROR! Cargo capacity must be a natural number. " +
-                            "Check the airplane number " + sideNumber);
-                }
+            if (characteristics.length == CHARACTERISTICS_LENGTH) {
+                sideNumber = parser.parseSideNumber(characteristics);
+                manufacturer = parser.parseManufacturer(characteristics);
+                model = parser.parseModel(characteristics);
+                airplaneType = parser.parseAirplaneType(characteristics);
+                crew = parser.parseCrew(characteristics);
+                passengers = parser.parseCrew(characteristics);
+                maxSpeed = parser.parseMaxSpeed(characteristics);
+                maxAltitude = parser.parseMaxAltitude(characteristics);
+                maxFlightRange = parser.parseMaxFlightRange(characteristics);
+                fuelSupply = parser.parseFuelSupply(characteristics);
+                fuelConsumption = parser.parseFuelCunsumption(characteristics);
+                cargoCapacity = parser.parseCargoCapacity(characteristics);
 
 
                 if (airplaneType == AirplaneType.CARGO) {
@@ -179,6 +82,7 @@ public class AirlineServiceImpl implements AirlineService {
         }
         return airplanes;
     }
+
 
     /**
      * Finds total passengers and crew capacity of all airplanes
