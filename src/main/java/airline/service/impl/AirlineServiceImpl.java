@@ -36,13 +36,13 @@ public class AirlineServiceImpl implements AirlineService {
         String model;
         AirplaneType airplaneType;
         int crew;
-        int passengers = 0;
+        int passengers;
         int maxSpeed;
         int maxAltitude;
         int maxFlightRange;
         int fuelSupply;
         double fuelConsumption;
-        int cargoCapacity = 0;
+        int cargoCapacity;
 
         try {
             input.nextLine();
