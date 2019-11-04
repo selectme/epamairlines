@@ -170,7 +170,7 @@ public class Parser {
      * @param filename file which contains a list of airplanes
      * @return Scanner
      */
-    private Scanner fileInput(String filename) {
+    public Scanner fileInput(String filename) {
         ClassLoader classLoader = getClass().getClassLoader();
         URL path = classLoader.getResource(filename);
         File file = null;
@@ -187,4 +187,6 @@ public class Parser {
         }
         return input;
     }
+
+
 }

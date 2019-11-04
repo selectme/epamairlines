@@ -28,8 +28,8 @@ public class AirlineServiceImpl implements AirlineService {
      * @return array of {@link Airplane}
      */
     public List<Airplane> createAirplanesList(String filename) {
-
-        Scanner input = fileInput(filename);
+        Parser parser = new Parser();
+        Scanner input =  parser.fileInput(filename);
 
         String sideNumber;
         String manufacturer;
@@ -50,7 +50,7 @@ public class AirlineServiceImpl implements AirlineService {
             System.out.println("File is empty");
         }
 
-        Parser parser = new Parser();
+
         List<Airplane> airplanes = new ArrayList<>();
 
         while (input.hasNextLine()) {
@@ -216,27 +216,5 @@ public class AirlineServiceImpl implements AirlineService {
     }
 
 
-    /**
-     * Checks if text file exists
-     *
-     * @param filename file which contains a list of airplanes
-     * @return Scanner
-     */
-    private Scanner fileInput(String filename) {
-        ClassLoader classLoader = getClass().getClassLoader();
-        URL path = classLoader.getResource(filename);
-        File file = null;
-        if (path != null) {
-            file = new File(path.getFile());
-        }
-        Scanner input = null;
-        try {
-            if (file != null) {
-                input = new Scanner(file);
-            }
-        } catch (FileNotFoundException e) {
-            System.out.println("File not found");
-        }
-        return input;
-    }
+
 }
