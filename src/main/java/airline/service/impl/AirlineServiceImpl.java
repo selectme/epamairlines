@@ -9,6 +9,8 @@ import airline.model.CargoAirplane;
 import airline.model.PassengerAirplane;
 import airline.parser.Parser;
 import airline.service.AirlineService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -20,6 +22,7 @@ import java.util.*;
  */
 public class AirlineServiceImpl implements AirlineService {
     private final static int CHARACTERISTICS_LENGTH = 12;
+    private final static Logger logger = LogManager.getLogger(AirlineServiceImpl.class);
 
     /**
      * Creates array of {@link Airplane}  from a list of airplanes
@@ -29,7 +32,8 @@ public class AirlineServiceImpl implements AirlineService {
      */
     public List<Airplane> createAirplanesList(String filename) {
         Parser parser = new Parser();
-        Scanner input =  parser.fileInput(filename);
+
+        Scanner input = parser.fileInput(filename);
 
         String sideNumber;
         String manufacturer;
@@ -44,17 +48,11 @@ public class AirlineServiceImpl implements AirlineService {
         double fuelConsumption;
         int cargoCapacity;
 
-        try {
-            input.nextLine();
-        } catch (NoSuchElementException e) {
-            System.out.println("File is empty");
-        }
-
+        input.nextLine();
 
         List<Airplane> airplanes = new ArrayList<>();
 
         while (input.hasNextLine()) {
-
             String[] characteristics = input.nextLine().split("\\|");
             if (characteristics.length == CHARACTERISTICS_LENGTH) {
                 sideNumber = parser.parseSideNumber(characteristics);
@@ -62,14 +60,13 @@ public class AirlineServiceImpl implements AirlineService {
                 model = parser.parseModel(characteristics);
                 airplaneType = parser.parseAirplaneType(characteristics);
                 crew = parser.parseCrew(characteristics);
-                passengers = parser.parseCrew(characteristics);
+                passengers = parser.parsePassengers(characteristics);
                 maxSpeed = parser.parseMaxSpeed(characteristics);
                 maxAltitude = parser.parseMaxAltitude(characteristics);
                 maxFlightRange = parser.parseMaxFlightRange(characteristics);
                 fuelSupply = parser.parseFuelSupply(characteristics);
                 fuelConsumption = parser.parseFuelCunsumption(characteristics);
                 cargoCapacity = parser.parseCargoCapacity(characteristics);
-
 
                 if (airplaneType == AirplaneType.CARGO) {
                     airplanes.add(new CargoAirplane(sideNumber, manufacturer, maxSpeed, maxAltitude, model, airplaneType,
@@ -202,7 +199,8 @@ public class AirlineServiceImpl implements AirlineService {
      */
     public Airplane findPlaneByFuelConsumptionRange(List<Airplane> airplanes, int rangeFrom, int rangeTo) {
         if ((rangeTo < 0) || (rangeFrom < 0) || (rangeTo - rangeFrom < 0)) {
-            throw new IllegalArgumentException("Range can't be negative");
+            logger.error("Range can't be negative");
+            throw new IllegalArgumentException();
         }
 
         List<Airplane> suitableToRangeAirplanes = new ArrayList<>();
@@ -214,7 +212,5 @@ public class AirlineServiceImpl implements AirlineService {
         suitableToRangeAirplanes.sort(new AirplaneFuelConsumptionComparator());
         return suitableToRangeAirplanes.get(0);
     }
-
-
 
 }

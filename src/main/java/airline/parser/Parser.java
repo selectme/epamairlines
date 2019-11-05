@@ -1,6 +1,8 @@
 package airline.parser;
 
 import airline.model.AirplaneType;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -11,6 +13,7 @@ import java.util.Scanner;
  * @author Viktar on 04.11.2019
  */
 public class Parser {
+    static final Logger logger = LogManager.getLogger(Parser.class);
 
     public String parseSideNumber(String[] characteristics) {
         return characteristics[0].trim();
@@ -29,8 +32,9 @@ public class Parser {
         try {
             airplaneType = AirplaneType.valueOf(characteristics[3].trim().toUpperCase());
         } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("ERROR! Airplane " + parseSideNumber(characteristics) + " must be only Passenger or Cargo." +
-                    "Check your airplanes list ", e);
+            logger.error("Airplane must be only Passenger or Cargo." +
+                    " Check the airplane number " + parseSideNumber(characteristics));
+            throw new IllegalArgumentException();
         }
         return airplaneType;
     }
@@ -40,12 +44,14 @@ public class Parser {
         try {
             crew = Integer.parseInt(characteristics[4].trim());
             if (crew < 0) {
-                throw new IllegalArgumentException("ERROR! Crew can't be less than 0 and it must be a natural number." +
+                logger.error("Crew can't be less than 0 and it must be a natural number." +
                         " Check the airplane number " + parseSideNumber(characteristics));
+                throw new IllegalArgumentException();
             }
         } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("ERROR! Crew must be a natural number. Check the airplane number "
-                    + parseSideNumber(characteristics), e);
+            logger.error("ERROR! Crew must be a natural number. Check the airplane number "
+                    + parseSideNumber(characteristics));
+            throw new IllegalArgumentException();
         }
         return crew;
     }
@@ -55,15 +61,18 @@ public class Parser {
         try {
             passengers = Integer.parseInt(characteristics[5].trim());
             if (passengers < 0) {
-                throw new IllegalArgumentException("ERROR! Passengers can't be less than 0 and it must be a natural number." +
+                logger.error("ERROR! Passengers can't be less than 0 and it must be a natural number." +
                         " Check the airplane number " + parseSideNumber(characteristics));
+                throw new IllegalArgumentException();
             } else if ((parseAirplaneType(characteristics) == AirplaneType.CARGO) && (passengers > 0)) {
-                throw new IllegalStateException("Cargo type can't have passengers. Check the airplane number "
+                logger.error("Cargo type can't have passengers. Check the airplane number "
                         + parseSideNumber(characteristics));
+                throw new IllegalStateException();
             }
         } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("ERROR! Passengers must be a natural number. Check the airplane number "
-                    + parseSideNumber(characteristics), e);
+            logger.error("ERROR! Passengers must be a natural number. Check the airplane number "
+                    + parseSideNumber(characteristics));
+            throw new IllegalArgumentException();
         }
         return passengers;
     }
@@ -73,12 +82,14 @@ public class Parser {
         try {
             maxSpeed = Integer.parseInt(characteristics[6].trim());
             if (maxSpeed < 0) {
-                throw new IllegalArgumentException("Error! Max speed can't be negative. " +
+                logger.error("Error! Max speed can't be negative. " +
                         "Check the airplane number " + parseSideNumber(characteristics));
+                throw new IllegalArgumentException();
             }
         } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("ERROR! Max speed must be a positive natural number. " +
+            logger.error("ERROR! Max speed must be a positive natural number. " +
                     "Check the airplane number " + parseSideNumber(characteristics));
+            throw new IllegalArgumentException();
         }
         return maxSpeed;
     }
@@ -89,12 +100,14 @@ public class Parser {
         try {
             maxAltitude = Integer.parseInt(characteristics[7].trim());
             if (maxAltitude < 0) {
-                throw new IllegalArgumentException("Error! Max altitude can't be negative. " +
+                logger.error("Error! Max altitude can't be negative. " +
                         "Check the airplane number " + parseSideNumber(characteristics));
+                throw new IllegalArgumentException();
             }
         } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("ERROR! Max altitude must be a positive natural number. " +
+            logger.error("ERROR! Max altitude must be a positive natural number. " +
                     "Check the airplane number " + parseSideNumber(characteristics));
+            throw new IllegalArgumentException();
         }
         return maxAltitude;
     }
@@ -104,12 +117,14 @@ public class Parser {
         try {
             maxFlightRange = Integer.parseInt(characteristics[8].trim());
             if (maxFlightRange < 0) {
-                throw new IllegalArgumentException("ERROR! Max flight range can't be negative. " +
+                logger.error("ERROR! Max flight range can't be negative. " +
                         "Check the airplane number " + parseSideNumber(characteristics));
+                throw new IllegalArgumentException();
             }
         } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("ERROR! Max speed must be a positive natural number. " +
+            logger.error("ERROR! Max speed must be a positive natural number. " +
                     "Check the airplane number " + parseSideNumber(characteristics));
+            throw new IllegalArgumentException();
         }
         return maxFlightRange;
     }
@@ -119,12 +134,14 @@ public class Parser {
         try {
             fuelSupply = Integer.parseInt(characteristics[9].trim());
             if (fuelSupply < 0) {
-                throw new IllegalArgumentException("ERROR! Fuel supply range can't be negative. " +
+                logger.error("ERROR! Fuel supply range can't be negative. " +
                         "Check the airplane number " + parseSideNumber(characteristics));
+                throw new IllegalArgumentException();
             }
         } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("ERROR! Fuel supply must be a positive natural number. " +
+            logger.error("ERROR! Fuel supply must be a positive natural number. " +
                     "Check the airplane number " + parseSideNumber(characteristics));
+            throw new IllegalArgumentException();
         }
         return fuelSupply;
     }
@@ -135,31 +152,35 @@ public class Parser {
         try {
             fuelConsumption = Double.parseDouble(characteristics[10].trim());
             if (fuelConsumption < 0) {
-                throw new IllegalArgumentException("ERROR! Fuel consumption can't be negative. " +
+                logger.error("ERROR! Fuel consumption can't be negative. " +
                         "Check the airplane number " + parseSideNumber(characteristics));
+                throw new IllegalArgumentException();
             }
         } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("ERROR! Fuel consumption must be a positive number. " +
+            logger.error("ERROR! Fuel consumption must be a positive number. " +
                     "Check the airplane number " + parseSideNumber(characteristics));
+            throw new IllegalArgumentException();
         }
         return fuelConsumption;
     }
-
 
     public int parseCargoCapacity(String[] characteristics) {
         int cargoCapacity;
         try {
             cargoCapacity = Integer.parseInt(characteristics[11].trim());
             if ((parseAirplaneType(characteristics) == AirplaneType.PASSENGER) && (((cargoCapacity > 0) || (cargoCapacity < 0)))) {
-                throw new IllegalArgumentException("Error! Passenger airplane does not carry cargo. " +
+                logger.error("Error! Passenger airplane does not carry cargo. " +
                         "Check the airplane number " + parseSideNumber(characteristics));
+                throw new IllegalArgumentException();
             } else if (cargoCapacity < 0) {
-                throw new IllegalArgumentException("ERROR! Cargo capacity can't negative it must be a natural number." +
+                logger.error("ERROR! Cargo capacity can't negative it must be a natural number." +
                         "Check the airplane number " + parseSideNumber(characteristics));
+                throw new IllegalArgumentException();
             }
         } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("ERROR! Cargo capacity must be a natural number. " +
+            logger.error("ERROR! Cargo capacity must be a natural number. " +
                     "Check the airplane number " + parseSideNumber(characteristics));
+            throw new IllegalArgumentException();
         }
         return cargoCapacity;
     }
@@ -171,6 +192,7 @@ public class Parser {
      * @return Scanner
      */
     public Scanner fileInput(String filename) {
+
         ClassLoader classLoader = getClass().getClassLoader();
         URL path = classLoader.getResource(filename);
         File file = null;
@@ -181,12 +203,13 @@ public class Parser {
         try {
             if (file != null) {
                 input = new Scanner(file);
+            } else {
+                throw new NullPointerException();
             }
-        } catch (FileNotFoundException e) {
-            System.out.println("File not found");
+        } catch (FileNotFoundException | NullPointerException e) {
+            logger.error("File " + filename + " not found.");
+            throw new NullPointerException();
         }
         return input;
     }
-
-
 }
